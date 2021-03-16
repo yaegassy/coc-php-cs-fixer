@@ -65,7 +65,7 @@
         "php-cs-fixer.toolPath": {
           "type": "string",
           "default": "",
-          "description": "The path to the php-cs-fixer tool"
+          "description": "The path to the php-cs-fixer tool (Absolute path)"
         },
         "php-cs-fixer.useCache": {
           "type": "boolean",

@@ -24,7 +24,7 @@ For example, [coc-intelephense](https://github.com/yaegassy/coc-intelephense) or
 ## Configuration options
 
 - `php-cs-fixer.enable`: Enable coc-php-cs-fixer extension, default: `true`
-- `php-cs-fixer.toolPath`: The path to the php-cs-fixer tool, default: `""`
+- `php-cs-fixer.toolPath`: The path to the php-cs-fixer tool (Absolute path), default: `""`
 - `php-cs-fixer.useCache`: Use a cache file when fixing files (--using-cache), default: `false`
 - `php-cs-fixer.allowRisky`: Determines whether risky rules are allowed (--allow-risky), default: `false`
 - `php-cs-fixer.config`: Path to a `.php_cs` file (--config), default: `""`
