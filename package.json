@@ -1,0 +1,99 @@
+{
+  "name": "coc-php-cs-fixer",
+  "version": "0.0.1",
+  "description": "PHP CS Fixer (PHP Coding Standards Fixer) extension for coc.nvim",
+  "author": "yaegassy <yosstools@gmail.com>",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "keywords": [
+    "coc.nvim",
+    "php",
+    "php-cs-fixer",
+    "vim",
+    "neovim"
+  ],
+  "engines": {
+    "coc": "^0.0.80"
+  },
+  "scripts": {
+    "lint": "eslint src --ext ts",
+    "clean": "rimraf lib",
+    "watch": "node esbuild.js --watch",
+    "build": "node esbuild.js",
+    "prepare": "node esbuild.js"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120,
+    "semi": true
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.22",
+    "@types/node-fetch": "^2.5.7",
+    "@types/tmp": "^0.2.0",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
+    "coc.nvim": "^0.0.80",
+    "esbuild": "^0.8.42",
+    "eslint": "^7.14.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.2.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.1.2",
+    "https-proxy-agent": "^5.0.0",
+    "node-fetch": "^2.6.0",
+    "tmp": "^0.1.0"
+  },
+  "activationEvents": [
+    "onLanguage:php"
+  ],
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "coc-php-cs-fixer configuration",
+      "properties": {
+        "php-cs-fixer.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable coc-php-cs-fixer extension"
+        },
+        "php-cs-fixer.toolPath": {
+          "type": "string",
+          "default": "",
+          "description": "The path to the php-cs-fixer tool"
+        },
+        "php-cs-fixer.useCache": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use a cache file when fixing files (--using-cache)"
+        },
+        "php-cs-fixer.allowRisky": {
+          "type": "boolean",
+          "default": false,
+          "description": "Are risky fixers allowed (--allow-risky)"
+        },
+        "php-cs-fixer.config": {
+          "type": "string",
+          "default": "",
+          "description": "Path to a .php_cs file (--config)"
+        },
+        "php-cs-fixer.rules": {
+          "type": "string",
+          "default": "@PSR2",
+          "description": "Rules to use when fixing files (--rules)"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "php-cs-fixer.fix",
+        "title": "Run php-cs-fixer fix"
+      },
+      {
+        "command": "php-cs-fixer.download",
+        "title": "Download php-cs-fixer"
+      }
+    ]
+  }
+}
