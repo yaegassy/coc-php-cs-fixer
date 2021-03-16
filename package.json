@@ -15,6 +15,10 @@
   "engines": {
     "coc": "^0.0.80"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yaegassy/coc-php-cs-fixer"
+  },
   "scripts": {
     "lint": "eslint src --ext ts",
     "clean": "rimraf lib",
