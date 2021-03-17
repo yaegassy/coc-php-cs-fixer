@@ -42,7 +42,6 @@ export async function doFormat(
       // 3. builtin php-cs-fixer
       toolPath = path.join(context.storagePath, 'php-cs-fixer');
     } else {
-      // outputChannel.append('Unable to find the php-cs-fixer tool.');
       throw 'Unable to find the php-cs-fixer tool.';
     }
   }

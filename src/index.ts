@@ -52,10 +52,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   function registerFormatter(): void {
     disposeHandlers();
-    // const { languageSelector } = selectors();
     const languageSelector: DocumentSelector = [{ language: 'php', scheme: 'file' }];
 
-    //formatterHandler = languages.registerDocumentFormatProvider(languageSelector, editProvider, priority);
     formatterHandler = languages.registerDocumentFormatProvider(languageSelector, editProvider, priority);
   }
   registerFormatter();
