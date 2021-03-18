@@ -21,6 +21,13 @@ If "1" and "2" above are not detected, the download feature will be executed (Th
 If another coc extension provides formatting, it is recommended to disable the formatting feature of that extension.
 For example, [coc-intelephense](https://github.com/yaegassy/coc-intelephense) or [coc-phpls](https://github.com/marlonfan/coc-phpls) can be disabled by setting `"intelephense.format.enable": false`.
 
+## Usage
+
+### Format document
+
+- `:call CocAction('format')`
+- `:CocCommand php-cs-fixer.fix`
+
 ## Configuration options
 
 - `php-cs-fixer.enable`: Enable coc-php-cs-fixer extension, default: `true`
