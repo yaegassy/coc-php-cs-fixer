@@ -23,11 +23,11 @@ function disposeHandlers(): void {
 }
 
 export async function activate(context: ExtensionContext): Promise<void> {
-  const outputChannel = window.createOutputChannel('php-cs-fixer');
-
   const extensionConfig = workspace.getConfiguration('php-cs-fixer');
   const isEnable = extensionConfig.get<boolean>('enable', true);
   if (!isEnable) return;
+
+  const outputChannel = window.createOutputChannel('php-cs-fixer');
 
   const extensionStoragePath = context.storagePath;
   if (!fs.existsSync(extensionStoragePath)) {
