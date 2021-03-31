@@ -62,15 +62,15 @@
           "default": true,
           "description": "Enable coc-php-cs-fixer extension"
         },
-        "php-cs-fixer.enableFormatProvider": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enable format provider"
-        },
         "php-cs-fixer.enableActionProvider": {
           "type": "boolean",
           "default": true,
           "description": "Enable codeAction provider"
+        },
+        "php-cs-fixer.enableFormatProvider": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable format provider"
         },
         "php-cs-fixer.toolPath": {
           "type": "string",
