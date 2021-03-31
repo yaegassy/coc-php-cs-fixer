@@ -18,19 +18,27 @@ Detects the `php-cs-fixer` command. They are prioritized in order from the top.
 
 If "1" and "2" above are not detected, the download feature will be executed (The prompt will be displayed)
 
-If another coc extension provides formatting, it is recommended to disable the formatting feature of that extension.
-For example, [coc-intelephense](https://github.com/yaegassy/coc-intelephense) or [coc-phpls](https://github.com/marlonfan/coc-phpls) can be disabled by setting `"intelephense.format.enable": false`.
-
 ## Usage
 
 ### Format document
 
-- `:call CocAction('format')`
+**Run from CocCommand**:
+
 - `:CocCommand php-cs-fixer.fix`
+
+**If "php-cs-fixer.enableActionProvider" is "true" (default: true)**:
+
+- `:call CocAction('codeAction')` -> Choose action: "Run: php-cs-fixer.fix"
+
+**If "php-cs-fixer.enableFormatProvider" is "true" (default: false)**:
+
+- `:call CocAction('format')`
 
 ## Configuration options
 
 - `php-cs-fixer.enable`: Enable coc-php-cs-fixer extension, default: `true`
+- `php-cs-fixer.enableActionProvider`: Enable codeAction provider, default: `true`
+- `php-cs-fixer.enableFormatProvider`: Enable format provider, default: `false`
 - `php-cs-fixer.toolPath`: The path to the php-cs-fixer tool (Absolute path), default: `""`
 - `php-cs-fixer.useCache`: Use a cache file when fixing files (--using-cache), default: `false`
 - `php-cs-fixer.allowRisky`: Determines whether risky rules are allowed (--allow-risky), default: `false`
@@ -41,6 +49,35 @@ For example, [coc-intelephense](https://github.com/yaegassy/coc-intelephense) or
 
 - `php-cs-fixer.fix`: Run php-cs-fixer fix
 - `php-cs-fixer.download`: Download php-cs-fixer
+
+## Code Actions
+
+- `Run: php-cs-fixer.fix`
+
+## TIPS
+
+### Using with other coc extensions
+
+Run from "Code Action" or ":CocCommand" is recommended because it can be used together without any problem even if another coc extension provides the formatting.
+
+- For example, [coc-intelephense](https://github.com/yaegassy/coc-intelephense) + [coc-php-cs-fixer](https://github.com/yaegassy/coc-php-cs-fixer)
+- For example, [coc-phpls](https://github.com/marlonfan/coc-phpls) + [coc-php-cs-fixer](https://github.com/yaegassy/coc-php-cs-fixer)
+
+### Equivalent to "organize imports"
+
+The [intelephense](https://github.com/bmewburn/vscode-intelephense) does not currently support "organize imports".
+
+You can add a configuration equivalent to "organize imports" in `php-cs-fixer` to handle this.
+
+**coc-settings.json**:
+
+```jsonc
+{
+  // ...snip
+  "php-cs-fixer.rules": "ordered_imports,no_unused_imports",
+  // ...snip
+}
+```
 
 ## License
 

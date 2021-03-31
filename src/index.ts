@@ -10,7 +10,9 @@ import {
 } from 'coc.nvim';
 import fs from 'fs';
 import path from 'path';
+
 import FixerFormattingEditProvider, { doFormat, fullDocumentRange } from './format';
+import { FixerCodeActionProvider } from './action';
 import { download } from './downloader';
 
 let formatterHandler: undefined | Disposable;
@@ -26,6 +28,9 @@ export async function activate(context: ExtensionContext): Promise<void> {
   const extensionConfig = workspace.getConfiguration('php-cs-fixer');
   const isEnable = extensionConfig.get<boolean>('enable', true);
   if (!isEnable) return;
+
+  const isEnableFormatProvider = extensionConfig.get<boolean>('enableFormatProvider', false);
+  const isEnableActionProvider = extensionConfig.get<boolean>('enableActionProvider', true);
 
   const outputChannel = window.createOutputChannel('php-cs-fixer');
 
@@ -48,13 +53,17 @@ export async function activate(context: ExtensionContext): Promise<void> {
   }
 
   const editProvider = new FixerFormattingEditProvider(context, outputChannel);
+  const actionProvider = new FixerCodeActionProvider();
+
   const priority = 1;
+  const languageSelector: DocumentSelector = [{ language: 'php', scheme: 'file' }];
 
   function registerFormatter(): void {
     disposeHandlers();
-    const languageSelector: DocumentSelector = [{ language: 'php', scheme: 'file' }];
 
-    formatterHandler = languages.registerDocumentFormatProvider(languageSelector, editProvider, priority);
+    if (isEnableFormatProvider) {
+      formatterHandler = languages.registerDocumentFormatProvider(languageSelector, editProvider, priority);
+    }
   }
   registerFormatter();
 
@@ -75,6 +84,10 @@ export async function activate(context: ExtensionContext): Promise<void> {
       await downloadWrapper(context);
     })
   );
+
+  if (isEnableActionProvider) {
+    context.subscriptions.push(languages.registerCodeActionProvider(languageSelector, actionProvider, 'php-cs-fixer'));
+  }
 }
 
 async function downloadWrapper(context: ExtensionContext) {
