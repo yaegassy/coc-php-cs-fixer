@@ -13,8 +13,8 @@ Detects the `php-cs-fixer` command. They are prioritized in order from the top.
 1. `php-cs-fixer.toolPath`
 1. `vendor/bin/php-cs-fixer`
 1. `php-cs-fixer` retrieved by the download feature (`:CocCommand php-cs-fixer.download`)
-    - Windows: `~/AppData/Local/coc/extension/coc-php-cs-fixer-data/php-cs-fixer`
-    - Other: `~/.config/coc/extension/coc-php-cs-fixer-data/php-cs-fixer`
+    - Mac/Linux: `~/.config/coc/extensions/coc-php-cs-fixer-data/php-cs-fixer`
+    - Windows: `~/AppData/Local/coc/extensions/coc-php-cs-fixer-data/php-cs-fixer`
 
 If "1" and "2" above are not detected, the download feature will be executed (The prompt will be displayed)
 
