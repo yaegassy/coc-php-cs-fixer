@@ -1,6 +1,6 @@
 {
   "name": "coc-php-cs-fixer",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "PHP CS Fixer (PHP Coding Standards Fixer) extension for coc.nvim",
   "author": "yaegassy <yosstools@gmail.com>",
   "license": "MIT",
