@@ -46,11 +46,11 @@ export async function doFormat(
     }
   }
 
-  const fileName = Uri.parse(document.uri).fsPath;
   const text = document.getText(range);
-
   const args: string[] = [];
-  const opts = { cwd: path.dirname(fileName) };
+  const cwd = Uri.file(workspace.root).fsPath;
+  // Use shell
+  const opts = { cwd, shell: true };
 
   args.push(toolPath);
   args.push('fix');
@@ -92,7 +92,8 @@ export async function doFormat(
 
   // ---- Output the command to be executed to channel log. ----
   outputChannel.appendLine(`${'#'.repeat(10)} php-cs-fixer\n`);
-  outputChannel.appendLine(`Run: php ${args.join(' ')} ${tmpFile.name}\n`);
+  outputChannel.appendLine(`Run: php ${args.join(' ')} ${tmpFile.name}`);
+  outputChannel.appendLine(`Cwd: ${cwd}\n`);
 
   return new Promise(function (resolve) {
     cp.execFile('php', [...args, tmpFile.name], opts, function (err) {
