@@ -90,11 +90,11 @@
         "php-cs-fixer.config": {
           "type": "string",
           "default": "",
-          "description": "Path to a .php_cs file (--config)"
+          "description": "Path to a .php_cs or .php-cs-fixer.php file (--config)"
         },
         "php-cs-fixer.rules": {
           "type": "string",
-          "default": "@PSR2",
+          "default": "@PSR12",
           "description": "Rules to use when fixing files (--rules)"
         }
       }

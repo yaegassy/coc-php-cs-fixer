@@ -42,8 +42,8 @@ If "1" and "2" above are not detected, the download feature will be executed (Th
 - `php-cs-fixer.toolPath`: The path to the php-cs-fixer tool (Absolute path), default: `""`
 - `php-cs-fixer.useCache`: Use a cache file when fixing files (--using-cache), default: `false`
 - `php-cs-fixer.allowRisky`: Determines whether risky rules are allowed (--allow-risky), default: `false`
-- `php-cs-fixer.config`: Path to a `.php_cs` file (--config), default: `""`
-- `php-cs-fixer.rules`: Rules to use when fixing files (--rules), e.g. `"@PSR12,@Symfony"`, default: `"@PSR2"`
+- `php-cs-fixer.config`: Path to a `.php_cs` or `.php-cs-fixer.php` file (--config), default: `""`
+- `php-cs-fixer.rules`: Rules to use when fixing files (--rules), e.g. `"@PSR12,@Symfony"`, default: `"@PSR12"`
 
 ## Commands
 
@@ -74,7 +74,7 @@ You can add a configuration equivalent to "organize imports" in `php-cs-fixer` t
 ```jsonc
 {
   // ...snip
-  "php-cs-fixer.rules": "ordered_imports,no_unused_imports",
+  "php-cs-fixer.rules": "@PSR12,ordered_imports,no_unused_imports",
   // ...snip
 }
 ```
