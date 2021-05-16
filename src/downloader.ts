@@ -10,14 +10,19 @@ import util from 'util';
 const pipeline = util.promisify(stream.pipeline);
 const agent = process.env.https_proxy ? new HttpsProxyAgent(process.env.https_proxy as string) : null;
 
-export async function download(context: ExtensionContext): Promise<void> {
+export async function download(context: ExtensionContext, downloadMajorVersion: number): Promise<void> {
   const statusItem = window.createStatusBarItem(0, { progress: true });
   statusItem.text = `Downloading php-cs-fixer`;
   statusItem.show();
 
-  // MEMO: Some locations may only be able to connect to github.
-  //const downloadUrl = 'https://cs.symfony.com/download/php-cs-fixer-v2.phar';
-  const downloadUrl = 'https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/latest/download/php-cs-fixer.phar';
+  let downloadUrl = 'https://cs.symfony.com/download/php-cs-fixer-v3.phar';
+  if (typeof downloadMajorVersion === 'number') {
+    if (downloadMajorVersion === 3) {
+      downloadUrl = 'https://cs.symfony.com/download/php-cs-fixer-v3.phar';
+    } else if (downloadMajorVersion === 2) {
+      downloadUrl = 'https://cs.symfony.com/download/php-cs-fixer-v2.phar';
+    }
+  }
 
   // @ts-ignore
   const resp = await fetch(downloadUrl, { agent });

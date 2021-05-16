@@ -62,6 +62,16 @@
           "default": true,
           "description": "Enable coc-php-cs-fixer extension"
         },
+        "php-cs-fixer.downloadMajorVersion": {
+          "type": "number",
+          "enum": [
+            2,
+            3
+          ],
+          "default": 3,
+          "description": "Specify the major version of php-cs-fixer to download for the extension",
+          "scope": "window"
+        },
         "php-cs-fixer.enableActionProvider": {
           "type": "boolean",
           "default": true,

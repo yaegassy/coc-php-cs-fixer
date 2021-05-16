@@ -29,6 +29,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   const isEnable = extensionConfig.get<boolean>('enable', true);
   if (!isEnable) return;
 
+  const downloadMajorVersion = extensionConfig.get<number>('downloadMajorVersion', 3);
   const isEnableFormatProvider = extensionConfig.get<boolean>('enableFormatProvider', false);
   const isEnableActionProvider = extensionConfig.get<boolean>('enableActionProvider', true);
 
@@ -49,7 +50,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   }
 
   if (!toolPath) {
-    await downloadWrapper(context);
+    await downloadWrapper(context, downloadMajorVersion);
   }
 
   const editProvider = new FixerFormattingEditProvider(context, outputChannel);
@@ -81,7 +82,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   context.subscriptions.push(
     commands.registerCommand('php-cs-fixer.download', async () => {
-      await downloadWrapper(context);
+      await downloadWrapper(context, downloadMajorVersion);
     })
   );
 
@@ -90,14 +91,14 @@ export async function activate(context: ExtensionContext): Promise<void> {
   }
 }
 
-async function downloadWrapper(context: ExtensionContext) {
+async function downloadWrapper(context: ExtensionContext, downloadMajorVersion: number) {
   let msg = 'Do you want to download "php-cs-fixer"?';
 
   let ret = 0;
   ret = await window.showQuickpick(['Yes', 'Cancel'], msg);
   if (ret === 0) {
     try {
-      await download(context);
+      await download(context, downloadMajorVersion);
     } catch (e) {
       console.error(e);
       msg = 'Download php-cs-fixer failed, you can get it from https://github.com/FriendsOfPHP/PHP-CS-Fixer';

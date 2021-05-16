@@ -37,6 +37,7 @@ If "1" and "2" above are not detected, the download feature will be executed (Th
 ## Configuration options
 
 - `php-cs-fixer.enable`: Enable coc-php-cs-fixer extension, default: `true`
+- `php-cs-fixer.downloadMajorVersion`: Specify the major version of php-cs-fixer to download for the extension, valid option `[2, 3]`, default: `3`
 - `php-cs-fixer.enableActionProvider`: Enable codeAction provider, default: `true`
 - `php-cs-fixer.enableFormatProvider`: Enable format provider, default: `false`
 - `php-cs-fixer.toolPath`: The path to the php-cs-fixer tool (Absolute path), default: `""`
@@ -49,6 +50,7 @@ If "1" and "2" above are not detected, the download feature will be executed (Th
 
 - `php-cs-fixer.fix`: Run php-cs-fixer fix
 - `php-cs-fixer.download`: Download php-cs-fixer
+   - By default, the "v3" series will be downloaded. If you want to download "v2" series, please change the `php-cs-fixer.downloadMajorVersion` setting.
 
 ## Code Actions
 
