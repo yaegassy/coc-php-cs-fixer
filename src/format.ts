@@ -15,6 +15,10 @@ import fs from 'fs';
 import path from 'path';
 import tmp from 'tmp';
 
+interface ProcessEnv {
+  [key: string]: string | undefined;
+}
+
 export async function doFormat(
   context: ExtensionContext,
   outputChannel: OutputChannel,
@@ -31,6 +35,7 @@ export async function doFormat(
   const isAllowRisky = extensionConfig.get('allowRisky', true);
   let fixerConfig = extensionConfig.get('config', '');
   const fixerRules = extensionConfig.get('rules', '@PSR12');
+  const enableIgnoreEnv = extensionConfig.get<boolean>('enableIgnoreEnv', false);
 
   // 1. User setting php-cs-fixer
   let toolPath = extensionConfig.get('toolPath', '');
@@ -49,8 +54,12 @@ export async function doFormat(
   const text = document.getText(range);
   const args: string[] = [];
   const cwd = Uri.file(workspace.root).fsPath;
-  // Use shell
-  const opts = { cwd, shell: true };
+
+  let env: ProcessEnv | undefined = undefined;
+  if (enableIgnoreEnv) {
+    env = { PHP_CS_FIXER_IGNORE_ENV: '1' };
+  }
+  const opts = { cwd, env, shell: true };
 
   args.push(toolPath);
   args.push('fix');
@@ -93,7 +102,7 @@ export async function doFormat(
   // ---- Output the command to be executed to channel log. ----
   outputChannel.appendLine(`${'#'.repeat(10)} php-cs-fixer\n`);
   outputChannel.appendLine(`Run: php ${args.join(' ')} ${tmpFile.name}`);
-  outputChannel.appendLine(`Cwd: ${cwd}\n`);
+  outputChannel.appendLine(`Opts: ${JSON.stringify(opts)}\n`);
 
   return new Promise(function (resolve) {
     cp.execFile('php', [...args, tmpFile.name], opts, function (err) {

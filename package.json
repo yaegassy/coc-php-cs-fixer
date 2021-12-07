@@ -72,6 +72,11 @@
           "description": "Specify the major version of php-cs-fixer to download for the extension",
           "scope": "window"
         },
+        "php-cs-fixer.enableIgnoreEnv": {
+          "type": "boolean",
+          "default": false,
+          "description": "Add the environment variable PHP_CS_FIXER_IGNORE_ENV=1 and run php-cs-fixer"
+        },
         "php-cs-fixer.enableActionProvider": {
           "type": "boolean",
           "default": true,
