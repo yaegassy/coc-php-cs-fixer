@@ -92,7 +92,7 @@ export async function doFormat(
     args.push('--config=' + fixerConfig);
   } else {
     if (fixerRules) {
-      args.push('--rules=' + fixerRules);
+      args.push(`--rules='${fixerRules}'`);
     }
   }
 
