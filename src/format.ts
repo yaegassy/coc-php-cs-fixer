@@ -91,8 +91,13 @@ export async function doFormat(
 
     args.push('--config=' + fixerConfig);
   } else {
-    if (fixerRules) {
-      args.push(`--rules='${fixerRules}'`);
+    if (
+      !fs.existsSync(path.join(workspace.root, '.php-cs-fixer.php')) ||
+      !fs.existsSync(path.join(workspace.root, '.php-cs-fixer.dist.php'))
+    ) {
+      if (fixerRules) {
+        args.push(`--rules='${fixerRules}'`);
+      }
     }
   }
 
