@@ -56,6 +56,15 @@
     "configuration": {
       "type": "object",
       "title": "coc-php-cs-fixer configuration",
+      "rootPatterns": [
+        {
+          "filetype": "php",
+          "patterns": [
+            ".php-cs-fixer.php",
+            ".php-cs-fixer.dist.php"
+          ]
+        }
+      ],
       "properties": {
         "php-cs-fixer.enable": {
           "type": "boolean",
