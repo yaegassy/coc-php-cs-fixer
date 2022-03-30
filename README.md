@@ -20,17 +20,51 @@ If "1" and "2" above are not detected, the download feature will be executed (Th
 
 ## Usage
 
-### Format document
+`coc-php-cs-fixer` can be executed in multiple ways.
 
-**Run from CocCommand**:
+### Auto run when saving a file
+
+Add the settings to `coc-settings.json`.
+
+```jsonc
+{
+  "coc.preferences.formatOnSaveFiletypes": [
+    "php"
+  ],
+  "php-cs-fixer.enableFormatProvider": true,
+  "intelephense.format.enable": false,
+}
+```
+
+### Run from CocCommand
 
 - `:CocCommand php-cs-fixer.fix`
 
-**If "php-cs-fixer.enableActionProvider" is "true" (default: true)**:
+### Run from Code Action
 
-- `:call CocAction('codeAction')` -> Choose action: "Run: php-cs-fixer.fix"
+If `php-cs-fixer.enableActionProvider` is `true` (default: `true`).
 
-**If "php-cs-fixer.enableFormatProvider" is "true" (default: false)**:
+**Example key mapping (Code Action related)**:
+
+```vim
+nmap <silent> ga <Plug>(coc-codeaction-line)
+nmap <silent> gA <Plug>(coc-codeaction)
+```
+
+**Actions**:
+
+Call Code Action with the mapped key.
+
+- `ga` or `gA`
+
+or from the `call` function.
+
+- `:call CocAction('codeAction')`
+  - Choose action: "Run: php-cs-fixer.fix"
+
+### Run formatting from call function
+
+If `php-cs-fixer.enableFormatProvider` is `true` (default: `false`).
 
 - `:call CocAction('format')`
 
@@ -56,31 +90,6 @@ If "1" and "2" above are not detected, the download feature will be executed (Th
 ## Code Actions
 
 - `Run: php-cs-fixer.fix`
-
-## TIPS
-
-### Using with other coc extensions
-
-Run from "Code Action" or ":CocCommand" is recommended because it can be used together without any problem even if another coc extension provides the formatting.
-
-- For example, [coc-intelephense](https://github.com/yaegassy/coc-intelephense) + [coc-php-cs-fixer](https://github.com/yaegassy/coc-php-cs-fixer)
-- For example, [coc-phpls](https://github.com/marlonfan/coc-phpls) + [coc-php-cs-fixer](https://github.com/yaegassy/coc-php-cs-fixer)
-
-### Equivalent to "organize imports"
-
-The [intelephense](https://github.com/bmewburn/vscode-intelephense) does not currently support "organize imports".
-
-You can add a configuration equivalent to "organize imports" in `php-cs-fixer` to handle this.
-
-**coc-settings.json**:
-
-```jsonc
-{
-  // ...snip
-  "php-cs-fixer.rules": "@PSR12,ordered_imports,no_unused_imports",
-  // ...snip
-}
-```
 
 ## License
 
