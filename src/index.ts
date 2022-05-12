@@ -93,10 +93,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
 async function downloadWrapper(context: ExtensionContext, downloadMajorVersion: number) {
   let msg = 'Do you want to download "php-cs-fixer"?';
-
-  let ret = 0;
-  ret = await window.showQuickpick(['Yes', 'Cancel'], msg);
-  if (ret === 0) {
+  const ret = await window.showPrompt(msg);
+  if (ret) {
     try {
       await download(context, downloadMajorVersion);
     } catch (e) {
