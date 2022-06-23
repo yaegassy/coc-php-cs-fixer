@@ -6,6 +6,7 @@ import * as fixCodeActionFeature from './actions/fix';
 import * as downloadCommandFeature from './commands/download';
 import * as fixCommandFeature from './commands/fix';
 import * as documentFormatProviderFeature from './providers/documentFormat';
+import * as statusBarFeature from './statusBar';
 
 export async function activate(context: ExtensionContext): Promise<void> {
   if (!workspace.getConfiguration('php-cs-fixer').get<boolean>('enable', true)) return;
@@ -16,7 +17,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
     fs.mkdirSync(extensionStoragePath);
   }
 
-  // register command feature
   fixCommandFeature.activate(context, outputChannel);
   downloadCommandFeature.activate(context);
 
@@ -32,9 +32,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     commands.executeCommand('php-cs-fixer.download');
   }
 
-  // register DocumentFormatProvider
   documentFormatProviderFeature.activate(context, outputChannel);
-
-  // register code action feature
   fixCodeActionFeature.activate(context);
+  statusBarFeature.activate(context);
 }
