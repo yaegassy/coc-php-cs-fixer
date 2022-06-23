@@ -24,9 +24,18 @@ export async function doFormat(
   outputChannel: OutputChannel,
   document: TextDocument,
   range?: Range
-): Promise<string> {
+): Promise<string | undefined> {
   if (document.languageId !== 'php') {
-    throw 'php-cs-fixer.fix cannot run, not a php file';
+    window.showErrorMessage(`php-cs-fixer.fix cannot run, not a php file`);
+    return;
+  }
+
+  const filepath = Uri.parse(document.uri).fsPath;
+  const filename = path.basename(filepath);
+
+  if (filename === '.php-cs-fixer.php' || filename === '.php-cs-fixer.dist.php') {
+    window.showWarningMessage(`php-cs-fixer config file is excluded from the formatting process.`);
+    return;
   }
 
   const extensionConfig = workspace.getConfiguration('php-cs-fixer');
@@ -47,7 +56,8 @@ export async function doFormat(
       // 3. builtin php-cs-fixer
       toolPath = path.join(context.storagePath, 'php-cs-fixer');
     } else {
-      throw 'Unable to find the php-cs-fixer tool.';
+      window.showErrorMessage(`Unable to find the php-cs-fixer tool.`);
+      return;
     }
   }
 
@@ -155,6 +165,7 @@ class FixerFormattingEditProvider implements DocumentFormattingEditProvider {
 
   private async _provideEdits(document: TextDocument, range?: Range): Promise<TextEdit[]> {
     const code = await doFormat(this._context, this._outputChannel, document, range);
+    if (!code) return [];
     if (!range) {
       range = fullDocumentRange(document);
     }
