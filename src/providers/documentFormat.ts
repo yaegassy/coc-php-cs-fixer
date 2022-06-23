@@ -2,7 +2,7 @@ import { DocumentSelector, ExtensionContext, languages, OutputChannel, workspace
 import FixerFormattingEditProvider from '../format';
 
 export function activate(context: ExtensionContext, outputChannel: OutputChannel) {
-  if (workspace.getConfiguration('php-cs-fixer').get<boolean>('enableFormatProvider', false)) {
+  if (workspace.getConfiguration('php-cs-fixer').get<boolean>('enableFormatProvider', true)) {
     const languageSelector: DocumentSelector = [{ language: 'php', scheme: 'file' }];
     const priority = 1;
 

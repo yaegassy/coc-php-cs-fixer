@@ -30,9 +30,7 @@ Add the settings to `coc-settings.json`.
 {
   "coc.preferences.formatOnSaveFiletypes": [
     "php"
-  ],
-  "php-cs-fixer.enableFormatProvider": true,
-  "intelephense.format.enable": false,
+  ]
 }
 ```
 
@@ -70,8 +68,8 @@ If `php-cs-fixer.enableFormatProvider` is `true` (default: `false`).
 - `php-cs-fixer.enable`: Enable coc-php-cs-fixer extension, default: `true`
 - `php-cs-fixer.downloadMajorVersion`: Specify the major version of php-cs-fixer to download for the extension, valid option `[2, 3]`, default: `3`
 - `php-cs-fixer.enableIgnoreEnv`: Add the environment variable `PHP_CS_FIXER_IGNORE_ENV=1` and run php-cs-fixer, default: `false`
+- `php-cs-fixer.enableFormatProvider`: Enable format provider, default: `true`
 - `php-cs-fixer.enableActionProvider`: Enable codeAction provider, default: `true`
-- `php-cs-fixer.enableFormatProvider`: Enable format provider, default: `false`
 - `php-cs-fixer.toolPath`: The path to the php-cs-fixer tool (Absolute path), default: `""`
 - `php-cs-fixer.useCache`: Use a cache file when fixing files (--using-cache), default: `false`
 - `php-cs-fixer.allowRisky`: Determines whether risky rules are allowed (--allow-risky), default: `false`

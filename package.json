@@ -86,15 +86,15 @@
           "default": false,
           "description": "Add the environment variable PHP_CS_FIXER_IGNORE_ENV=1 and run php-cs-fixer"
         },
+        "php-cs-fixer.enableFormatProvider": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable format provider"
+        },
         "php-cs-fixer.enableActionProvider": {
           "type": "boolean",
           "default": true,
           "description": "Enable codeAction provider"
-        },
-        "php-cs-fixer.enableFormatProvider": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enable format provider"
         },
         "php-cs-fixer.toolPath": {
           "type": "string",
