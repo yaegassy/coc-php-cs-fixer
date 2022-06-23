@@ -1,19 +1,11 @@
-import {
-  TextEdit,
-  workspace,
-  commands,
-  ExtensionContext,
-  languages,
-  Disposable,
-  DocumentSelector,
-  window,
-} from 'coc.nvim';
+import { commands, Disposable, DocumentSelector, ExtensionContext, languages, window, workspace } from 'coc.nvim';
 import fs from 'fs';
 import path from 'path';
 
-import FixerFormattingEditProvider, { doFormat, fullDocumentRange } from './format';
 import { FixerCodeActionProvider } from './action';
-import { download } from './downloader';
+import * as downloadCommandFeature from './commands/download';
+import * as fixCommandFeature from './commands/fix';
+import FixerFormattingEditProvider from './format';
 
 let formatterHandler: undefined | Disposable;
 
@@ -29,7 +21,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
   const isEnable = extensionConfig.get<boolean>('enable', true);
   if (!isEnable) return;
 
-  const downloadMajorVersion = extensionConfig.get<number>('downloadMajorVersion', 3);
   const isEnableFormatProvider = extensionConfig.get<boolean>('enableFormatProvider', false);
   const isEnableActionProvider = extensionConfig.get<boolean>('enableActionProvider', true);
 
@@ -40,6 +31,10 @@ export async function activate(context: ExtensionContext): Promise<void> {
     fs.mkdirSync(extensionStoragePath);
   }
 
+  // register command feature
+  fixCommandFeature.activate(context, outputChannel);
+  downloadCommandFeature.activate(context);
+
   let toolPath = extensionConfig.get('toolPath', '');
   if (!toolPath) {
     if (fs.existsSync(path.join('vendor', 'bin', 'php-cs-fixer'))) {
@@ -48,9 +43,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
       toolPath = path.join(context.storagePath, 'php-cs-fixer');
     }
   }
-
   if (!toolPath) {
-    await downloadWrapper(context, downloadMajorVersion);
+    commands.executeCommand('php-cs-fixer.download');
   }
 
   const editProvider = new FixerFormattingEditProvider(context, outputChannel);
@@ -68,44 +62,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   }
   registerFormatter();
 
-  context.subscriptions.push(
-    commands.registerCommand('php-cs-fixer.fix', async () => {
-      const doc = await workspace.document;
-
-      const code = await doFormat(context, outputChannel, doc.textDocument, undefined);
-      if (!code) return;
-
-      const edits = [TextEdit.replace(fullDocumentRange(doc.textDocument), code)];
-      if (edits) {
-        await doc.applyEdits(edits);
-      }
-    })
-  );
-
-  context.subscriptions.push(
-    commands.registerCommand('php-cs-fixer.download', async () => {
-      await downloadWrapper(context, downloadMajorVersion);
-    })
-  );
-
   if (isEnableActionProvider) {
     context.subscriptions.push(languages.registerCodeActionProvider(languageSelector, actionProvider, 'php-cs-fixer'));
-  }
-}
-
-async function downloadWrapper(context: ExtensionContext, downloadMajorVersion: number) {
-  let msg = 'Do you want to download "php-cs-fixer"?';
-  const ret = await window.showPrompt(msg);
-  if (ret) {
-    try {
-      await download(context, downloadMajorVersion);
-    } catch (e) {
-      console.error(e);
-      msg = 'Download php-cs-fixer failed, you can get it from https://github.com/FriendsOfPHP/PHP-CS-Fixer';
-      window.showErrorMessage(msg);
-      return;
-    }
-  } else {
-    return;
   }
 }
