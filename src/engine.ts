@@ -1,14 +1,4 @@
-import {
-  DocumentFormattingEditProvider,
-  Range,
-  TextDocument,
-  TextEdit,
-  Uri,
-  window,
-  workspace,
-  ExtensionContext,
-  OutputChannel,
-} from 'coc.nvim';
+import { ExtensionContext, OutputChannel, Range, TextDocument, Uri, window, workspace } from 'coc.nvim';
 
 import cp from 'child_process';
 import fs from 'fs';
@@ -148,34 +138,4 @@ function isExistsFixerConfigFileFromProjectRoot() {
     fs.existsSync(path.join(workspace.root, '.php-cs-fixer.php')) ||
     fs.existsSync(path.join(workspace.root, '.php-cs-fixer.dist.php'))
   );
-}
-
-export function fullDocumentRange(document: TextDocument): Range {
-  const lastLineId = document.lineCount - 1;
-  const doc = workspace.getDocument(document.uri);
-
-  return Range.create({ character: 0, line: 0 }, { character: doc.getline(lastLineId).length, line: lastLineId });
-}
-
-export class FixerFormattingEditProvider implements DocumentFormattingEditProvider {
-  public _context: ExtensionContext;
-  public _outputChannel: OutputChannel;
-
-  constructor(context: ExtensionContext, outputChannel: OutputChannel) {
-    this._context = context;
-    this._outputChannel = outputChannel;
-  }
-
-  public provideDocumentFormattingEdits(document: TextDocument): Promise<TextEdit[]> {
-    return this._provideEdits(document, undefined);
-  }
-
-  private async _provideEdits(document: TextDocument, range?: Range): Promise<TextEdit[]> {
-    const code = await doFormat(this._context, this._outputChannel, document, range);
-    if (!code) return [];
-    if (!range) {
-      range = fullDocumentRange(document);
-    }
-    return [TextEdit.replace(range, code)];
-  }
 }

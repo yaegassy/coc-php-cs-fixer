@@ -1,4 +1,5 @@
 import { commands, ExtensionContext, window, workspace } from 'coc.nvim';
+
 import fs from 'fs';
 import path from 'path';
 
@@ -6,7 +7,7 @@ import * as fixCodeActionFeature from './actions/fix';
 import * as downloadCommandFeature from './commands/download';
 import * as fixCommandFeature from './commands/fix';
 import * as showOutputCommandFeature from './commands/showOutput';
-import * as documentFormatProviderFeature from './providers/documentFormat';
+import * as fixerDocumentFormatFeature from './documentFormats/fixer';
 import * as statusBarFeature from './statusBar';
 
 export async function activate(context: ExtensionContext): Promise<void> {
@@ -34,7 +35,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     commands.executeCommand('php-cs-fixer.download');
   }
 
-  documentFormatProviderFeature.activate(context, outputChannel);
+  fixerDocumentFormatFeature.activate(context, outputChannel);
   fixCodeActionFeature.activate(context);
   statusBarFeature.activate(context);
 }

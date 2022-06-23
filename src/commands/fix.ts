@@ -1,5 +1,6 @@
 import { commands, ExtensionContext, OutputChannel, TextEdit, workspace } from 'coc.nvim';
-import { doFormat, fullDocumentRange } from '../format';
+import { fullDocumentRange } from '../common';
+import { doFormat } from '../engine';
 
 export function activate(context: ExtensionContext, outputChannel: OutputChannel) {
   context.subscriptions.push(commands.registerCommand('php-cs-fixer.fix', runFixCommand(context, outputChannel)));

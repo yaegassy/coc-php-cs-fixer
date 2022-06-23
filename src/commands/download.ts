@@ -1,5 +1,4 @@
 import { commands, ExtensionContext, window, workspace } from 'coc.nvim';
-
 import { download } from '../downloader';
 
 export function activate(context: ExtensionContext) {
