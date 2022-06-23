@@ -39,7 +39,7 @@
     "@typescript-eslint/parser": "^5.29.0",
     "coc.nvim": "^0.0.80",
     "esbuild": "^0.14.47",
-    "eslint": "^7.14.0",
+    "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.1.4",
     "https-proxy-agent": "^5.0.0",
