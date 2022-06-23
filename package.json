@@ -131,6 +131,10 @@
       {
         "command": "php-cs-fixer.download",
         "title": "Download php-cs-fixer"
+      },
+      {
+        "command": "php-cs-fixer.showOutput",
+        "title": "Show php-cs-fixer output channel"
       }
     ]
   }

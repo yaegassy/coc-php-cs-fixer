@@ -5,6 +5,7 @@ import path from 'path';
 import * as fixCodeActionFeature from './actions/fix';
 import * as downloadCommandFeature from './commands/download';
 import * as fixCommandFeature from './commands/fix';
+import * as showOutputCommandFeature from './commands/showOutput';
 import * as documentFormatProviderFeature from './providers/documentFormat';
 import * as statusBarFeature from './statusBar';
 
@@ -19,6 +20,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   fixCommandFeature.activate(context, outputChannel);
   downloadCommandFeature.activate(context);
+  showOutputCommandFeature.activate(context, outputChannel);
 
   let toolPath = workspace.getConfiguration('php-cs-fixer').get('toolPath', '');
   if (!toolPath) {
