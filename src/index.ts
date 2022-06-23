@@ -100,7 +100,7 @@ async function downloadWrapper(context: ExtensionContext, downloadMajorVersion: 
     } catch (e) {
       console.error(e);
       msg = 'Download php-cs-fixer failed, you can get it from https://github.com/FriendsOfPHP/PHP-CS-Fixer';
-      window.showMessage(msg, 'error');
+      window.showErrorMessage(msg);
       return;
     }
   } else {
