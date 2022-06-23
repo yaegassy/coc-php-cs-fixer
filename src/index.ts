@@ -2,7 +2,7 @@ import { commands, Disposable, DocumentSelector, ExtensionContext, languages, wi
 import fs from 'fs';
 import path from 'path';
 
-import { FixerCodeActionProvider } from './action';
+import * as fixCodeActionFeature from './actions/fix';
 import * as downloadCommandFeature from './commands/download';
 import * as fixCommandFeature from './commands/fix';
 import FixerFormattingEditProvider from './format';
@@ -22,7 +22,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
   if (!isEnable) return;
 
   const isEnableFormatProvider = extensionConfig.get<boolean>('enableFormatProvider', false);
-  const isEnableActionProvider = extensionConfig.get<boolean>('enableActionProvider', true);
 
   const outputChannel = window.createOutputChannel('php-cs-fixer');
 
@@ -48,7 +47,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
   }
 
   const editProvider = new FixerFormattingEditProvider(context, outputChannel);
-  const actionProvider = new FixerCodeActionProvider();
 
   const priority = 1;
   const languageSelector: DocumentSelector = [{ language: 'php', scheme: 'file' }];
@@ -62,7 +60,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
   }
   registerFormatter();
 
-  if (isEnableActionProvider) {
-    context.subscriptions.push(languages.registerCodeActionProvider(languageSelector, actionProvider, 'php-cs-fixer'));
-  }
+  // register code action feature
+  fixCodeActionFeature.activate(context);
 }
