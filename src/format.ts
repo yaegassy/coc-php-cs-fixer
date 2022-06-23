@@ -42,16 +42,16 @@ export async function doFormat(
 
   const isUseCache = extensionConfig.get('useCache', false);
   const isAllowRisky = extensionConfig.get('allowRisky', true);
-  let fixerConfig = extensionConfig.get('config', '');
+  let extensionFixerConfig = extensionConfig.get('config', '');
   const fixerRules = extensionConfig.get('rules', '@PSR12');
   const enableIgnoreEnv = extensionConfig.get<boolean>('enableIgnoreEnv', false);
 
   // 1. User setting php-cs-fixer
   let toolPath = extensionConfig.get('toolPath', '');
   if (!toolPath) {
-    if (fs.existsSync(path.join('vendor', 'bin', 'php-cs-fixer'))) {
+    if (fs.existsSync(path.join(workspace.root, 'vendor', 'bin', 'php-cs-fixer'))) {
       // 2. vendor/bin/php-cs-fixer
-      toolPath = path.join('vendor', 'bin', 'php-cs-fixer');
+      toolPath = path.join(workspace.root, 'vendor', 'bin', 'php-cs-fixer');
     } else if (fs.existsSync(path.join(context.storagePath, 'php-cs-fixer'))) {
       // 3. builtin php-cs-fixer
       toolPath = path.join(context.storagePath, 'php-cs-fixer');
@@ -74,40 +74,38 @@ export async function doFormat(
   args.push(toolPath);
   args.push('fix');
 
-  if (!isUseCache) {
-    args.push('--using-cache=no');
-  }
+  const existsFixerConfigFile = isExistsFixerConfigFileFromProjectRoot();
 
-  if (isAllowRisky) {
-    args.push('--allow-risky=yes');
-  }
-
-  if (fixerConfig) {
-    if (!path.isAbsolute(fixerConfig)) {
+  if (extensionFixerConfig) {
+    if (!path.isAbsolute(extensionFixerConfig)) {
       let currentPath = opts.cwd;
       const triedPaths = [currentPath];
-      while (!fs.existsSync(currentPath + path.sep + fixerConfig)) {
+      while (!fs.existsSync(currentPath + path.sep + extensionFixerConfig)) {
         const lastPath = currentPath;
         currentPath = path.dirname(currentPath);
         if (lastPath == currentPath) {
-          window.showErrorMessage(`Unable to find ${fixerConfig} file in ${triedPaths.join(', ')}`);
+          window.showErrorMessage(`Unable to find ${extensionFixerConfig} file in ${triedPaths.join(', ')}`);
           return '';
         } else {
           triedPaths.push(currentPath);
         }
       }
-      fixerConfig = currentPath + path.sep + fixerConfig;
+      extensionFixerConfig = currentPath + path.sep + extensionFixerConfig;
     }
-
-    args.push('--config=' + fixerConfig);
+    args.push('--config=' + extensionFixerConfig);
+  } else if (existsFixerConfigFile) {
+    // If the php-cs-fixer config file exists for the project root.
+    //
+    // ...noop
   } else {
-    if (
-      !fs.existsSync(path.join(workspace.root, '.php-cs-fixer.php')) ||
-      !fs.existsSync(path.join(workspace.root, '.php-cs-fixer.dist.php'))
-    ) {
-      if (fixerRules) {
-        args.push(`--rules='${fixerRules}'`);
-      }
+    if (!isUseCache) {
+      args.push('--using-cache=no');
+    }
+    if (isAllowRisky) {
+      args.push('--allow-risky=yes');
+    }
+    if (fixerRules) {
+      args.push(`--rules='${fixerRules}'`);
     }
   }
 
@@ -117,7 +115,9 @@ export async function doFormat(
   // ---- Output the command to be executed to channel log. ----
   outputChannel.appendLine(`${'#'.repeat(10)} php-cs-fixer\n`);
   outputChannel.appendLine(`Run: php ${args.join(' ')} ${tmpFile.name}`);
-  outputChannel.appendLine(`Opts: ${JSON.stringify(opts)}\n`);
+  outputChannel.appendLine(`Opts: ${JSON.stringify(opts)}`);
+  outputChannel.appendLine(`ResolveExtensionConfig: ${extensionFixerConfig ? extensionFixerConfig : 'not setting'}`);
+  outputChannel.appendLine(`FixerConfigFile(ProjectRoot): ${existsFixerConfigFile ? 'exist' : 'not exist'}\n`);
 
   return new Promise(function (resolve) {
     cp.execFile('php', [...args, tmpFile.name], opts, function (err) {
@@ -143,6 +143,13 @@ export async function doFormat(
   });
 }
 
+function isExistsFixerConfigFileFromProjectRoot() {
+  return (
+    fs.existsSync(path.join(workspace.root, '.php-cs-fixer.php')) ||
+    fs.existsSync(path.join(workspace.root, '.php-cs-fixer.dist.php'))
+  );
+}
+
 export function fullDocumentRange(document: TextDocument): Range {
   const lastLineId = document.lineCount - 1;
   const doc = workspace.getDocument(document.uri);
@@ -150,7 +157,7 @@ export function fullDocumentRange(document: TextDocument): Range {
   return Range.create({ character: 0, line: 0 }, { character: doc.getline(lastLineId).length, line: lastLineId });
 }
 
-class FixerFormattingEditProvider implements DocumentFormattingEditProvider {
+export class FixerFormattingEditProvider implements DocumentFormattingEditProvider {
   public _context: ExtensionContext;
   public _outputChannel: OutputChannel;
 
@@ -172,5 +179,3 @@ class FixerFormattingEditProvider implements DocumentFormattingEditProvider {
     return [TextEdit.replace(range, code)];
   }
 }
-
-export default FixerFormattingEditProvider;

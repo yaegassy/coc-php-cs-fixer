@@ -71,35 +71,15 @@
           "default": true,
           "description": "Enable coc-php-cs-fixer extension"
         },
-        "php-cs-fixer.downloadMajorVersion": {
-          "type": "number",
-          "enum": [
-            2,
-            3
-          ],
-          "default": 3,
-          "description": "Specify the major version of php-cs-fixer to download for the extension",
-          "scope": "window"
-        },
-        "php-cs-fixer.enableIgnoreEnv": {
-          "type": "boolean",
-          "default": false,
-          "description": "Add the environment variable PHP_CS_FIXER_IGNORE_ENV=1 and run php-cs-fixer"
-        },
-        "php-cs-fixer.enableFormatProvider": {
-          "type": "boolean",
-          "default": true,
-          "description": "Enable format provider"
-        },
-        "php-cs-fixer.enableActionProvider": {
-          "type": "boolean",
-          "default": true,
-          "description": "Enable codeAction provider"
-        },
         "php-cs-fixer.toolPath": {
           "type": "string",
           "default": "",
           "description": "The path to the php-cs-fixer tool (Absolute path)"
+        },
+        "php-cs-fixer.config": {
+          "type": "string",
+          "default": "",
+          "description": "Path to php-cs-fixer config file (--config)"
         },
         "php-cs-fixer.useCache": {
           "type": "boolean",
@@ -111,15 +91,35 @@
           "default": false,
           "description": "Are risky fixers allowed (--allow-risky)"
         },
-        "php-cs-fixer.config": {
-          "type": "string",
-          "default": "",
-          "description": "Path to a .php_cs or .php-cs-fixer.php file (--config)"
-        },
         "php-cs-fixer.rules": {
           "type": "string",
           "default": "@PSR12",
           "description": "Rules to use when fixing files (--rules)"
+        },
+        "php-cs-fixer.enableIgnoreEnv": {
+          "type": "boolean",
+          "default": false,
+          "description": "Add the environment variable PHP_CS_FIXER_IGNORE_ENV=1 and run php-cs-fixer"
+        },
+        "php-cs-fixer.downloadMajorVersion": {
+          "type": "number",
+          "enum": [
+            2,
+            3
+          ],
+          "default": 3,
+          "description": "Specify the major version of php-cs-fixer to download for the extension",
+          "scope": "window"
+        },
+        "php-cs-fixer.enableFormatProvider": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable format provider"
+        },
+        "php-cs-fixer.enableActionProvider": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable codeAction provider"
         }
       }
     },

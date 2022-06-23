@@ -22,8 +22,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   let toolPath = workspace.getConfiguration('php-cs-fixer').get('toolPath', '');
   if (!toolPath) {
-    if (fs.existsSync(path.join('vendor', 'bin', 'php-cs-fixer'))) {
-      toolPath = path.join('vendor', 'bin', 'php-cs-fixer');
+    if (fs.existsSync(path.join(workspace.root, 'vendor', 'bin', 'php-cs-fixer'))) {
+      toolPath = path.join(workspace.root, 'vendor', 'bin', 'php-cs-fixer');
     } else if (fs.existsSync(path.join(context.storagePath, 'php-cs-fixer'))) {
       toolPath = path.join(context.storagePath, 'php-cs-fixer');
     }

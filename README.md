@@ -63,18 +63,24 @@ If `php-cs-fixer.enableFormatProvider` is `true` (default: `false`).
 
 - `:call CocAction('format')`
 
+## Precedence of php-cs-fixer config files and options
+
+1. `php-cs-fixer.config` setting for this extension.
+2. `.php-cs-fixer.php` or `.php-cs-fixer.dist.php` config file in the workspace (project) root.
+3. options-reated settings for this extension. e.g. `php-cs-fixer.rules` and more.
+
 ## Configuration options
 
 - `php-cs-fixer.enable`: Enable coc-php-cs-fixer extension, default: `true`
-- `php-cs-fixer.downloadMajorVersion`: Specify the major version of php-cs-fixer to download for the extension, valid option `[2, 3]`, default: `3`
-- `php-cs-fixer.enableIgnoreEnv`: Add the environment variable `PHP_CS_FIXER_IGNORE_ENV=1` and run php-cs-fixer, default: `false`
-- `php-cs-fixer.enableFormatProvider`: Enable format provider, default: `true`
-- `php-cs-fixer.enableActionProvider`: Enable codeAction provider, default: `true`
 - `php-cs-fixer.toolPath`: The path to the php-cs-fixer tool (Absolute path), default: `""`
+- `php-cs-fixer.config`: Path to php-cs-fixer config file (--config), default: `""`
 - `php-cs-fixer.useCache`: Use a cache file when fixing files (--using-cache), default: `false`
 - `php-cs-fixer.allowRisky`: Determines whether risky rules are allowed (--allow-risky), default: `false`
-- `php-cs-fixer.config`: Path to a `.php_cs` or `.php-cs-fixer.php` file (--config), default: `""`
 - `php-cs-fixer.rules`: Rules to use when fixing files (--rules), e.g. `"@PSR12,@Symfony"`, default: `"@PSR12"`
+- `php-cs-fixer.enableIgnoreEnv`: Add the environment variable `PHP_CS_FIXER_IGNORE_ENV=1` and run php-cs-fixer, default: `false`
+- `php-cs-fixer.downloadMajorVersion`: Specify the major version of php-cs-fixer to download for the extension, valid option `[2, 3]`, default: `3`
+- `php-cs-fixer.enableFormatProvider`: Enable format provider, default: `true`
+- `php-cs-fixer.enableActionProvider`: Enable codeAction provider, default: `true`
 
 ## Commands
 
