@@ -42,12 +42,9 @@ Add the settings to `coc-settings.json`.
 
 ### Run from Code Action
 
-If `php-cs-fixer.enableActionProvider` is `true` (default: `true`).
-
 **Example key mapping (Code Action related)**:
 
 ```vim
-nmap <silent> ga <Plug>(coc-codeaction-line)
 nmap <silent> gA <Plug>(coc-codeaction)
 ```
 
@@ -55,7 +52,7 @@ nmap <silent> gA <Plug>(coc-codeaction)
 
 Call Code Action with the mapped key.
 
-- `ga` or `gA`
+- `gA`
 
 or from the `call` function.
 

@@ -3,6 +3,7 @@ import {
   CodeActionContext,
   CodeActionProvider,
   Command,
+  Document,
   DocumentSelector,
   ExtensionContext,
   languages,
@@ -24,23 +25,35 @@ export function activate(context: ExtensionContext) {
 export class FixCodeActionProvider implements CodeActionProvider {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async provideCodeActions(document: TextDocument, range: Range, context: CodeActionContext) {
-    if (document.languageId !== 'php') return;
-
     const codeActions: CodeAction[] = [];
+    if (document.languageId !== 'php') return;
+    const doc = workspace.getDocument(document.uri);
 
-    const title = `Run: php-cs-fixer.fix`;
-    const command: Command = {
-      title: '',
-      command: 'php-cs-fixer.fix',
-    };
+    if (this.wholeRange(doc, range)) {
+      const title = `Run: php-cs-fixer.fix`;
+      const command: Command = {
+        title: '',
+        command: 'php-cs-fixer.fix',
+      };
 
-    const action: CodeAction = {
-      title,
-      command,
-    };
+      const action: CodeAction = {
+        title,
+        command,
+      };
 
-    codeActions.push(action);
+      codeActions.push(action);
+    }
 
     return codeActions;
+  }
+
+  private wholeRange(doc: Document, range: Range): boolean {
+    const whole = Range.create(0, 0, doc.lineCount, 0);
+    return (
+      whole.start.line === range.start.line &&
+      whole.start.character === range.start.character &&
+      whole.end.line === range.end.line &&
+      whole.end.character === whole.end.character
+    );
   }
 }
