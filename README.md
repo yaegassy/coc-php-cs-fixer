@@ -38,30 +38,14 @@ Add the settings to `coc-settings.json`.
 
 - `:CocCommand php-cs-fixer.fix`
 
-### Run from Code Action
+### Run formatting from call function
 
-**Example key mapping (Code Action related)**:
+- `:call CocAction('format')`
 
-```vim
-nmap <silent> gA <Plug>(coc-codeaction)
-```
-
-**Actions**:
-
-Call Code Action with the mapped key.
-
-- `gA`
-
-or from the `call` function.
+### Run codeAction from call function
 
 - `:call CocAction('codeAction')`
   - Choose action: "Run: php-cs-fixer.fix"
-
-### Run formatting from call function
-
-If `php-cs-fixer.enableFormatProvider` is `true` (default: `false`).
-
-- `:call CocAction('format')`
 
 ## Precedence of php-cs-fixer config files and options
 
@@ -78,6 +62,7 @@ If `php-cs-fixer.enableFormatProvider` is `true` (default: `false`).
 - `php-cs-fixer.allowRisky`: Determines whether risky rules are allowed (--allow-risky), default: `false`
 - `php-cs-fixer.rules`: Rules to use when fixing files (--rules), e.g. `"@PSR12,@Symfony"`, default: `"@PSR12"`
 - `php-cs-fixer.enableIgnoreEnv`: Add the environment variable `PHP_CS_FIXER_IGNORE_ENV=1` and run php-cs-fixer, default: `false`
+- `php-cs-fixer.downloadCheckOnStartup`: Perform built-in download if php-cs-fixer is not present at startup, default: `true`
 - `php-cs-fixer.downloadMajorVersion`: Specify the major version of php-cs-fixer to download for the extension, valid option `[2, 3]`, default: `3`
 - `php-cs-fixer.enableFormatProvider`: Enable format provider, default: `true`
 - `php-cs-fixer.enableActionProvider`: Enable codeAction provider, default: `true`

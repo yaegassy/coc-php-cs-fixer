@@ -31,9 +31,12 @@ export async function activate(context: ExtensionContext): Promise<void> {
       toolPath = path.join(context.storagePath, 'php-cs-fixer');
     }
   }
-  if (!toolPath) {
-    commands.executeCommand('php-cs-fixer.download');
+  if (workspace.getConfiguration('php-cs-fixer').get('downloadCheckOnStartup', true)) {
+    if (!toolPath) {
+      commands.executeCommand('php-cs-fixer.download');
+    }
   }
+  if (!toolPath) return;
 
   fixerDocumentFormatFeature.activate(context, outputChannel);
   fixCodeActionFeature.activate(context);

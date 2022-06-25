@@ -101,6 +101,11 @@
           "default": false,
           "description": "Add the environment variable PHP_CS_FIXER_IGNORE_ENV=1 and run php-cs-fixer"
         },
+        "php-cs-fixer.downloadCheckOnStartup": {
+          "type": "boolean",
+          "default": true,
+          "description": "Perform built-in download if php-cs-fixer is not present at startup"
+        },
         "php-cs-fixer.downloadMajorVersion": {
           "type": "number",
           "enum": [
