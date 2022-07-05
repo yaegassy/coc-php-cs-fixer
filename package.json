@@ -1,7 +1,7 @@
 {
   "name": "coc-php-cs-fixer",
-  "version": "0.5.3",
-  "description": "PHP CS Fixer (PHP Coding Standards Fixer) extension for coc.nvim",
+  "version": "0.6.0",
+  "description": "PHP CS Fixer (PHP Coding Standards Fixer) and Laravel Pint extension for coc.nvim",
   "author": "yaegassy <yosstools@gmail.com>",
   "license": "MIT",
   "main": "lib/index.js",
@@ -9,6 +9,9 @@
     "coc.nvim",
     "php",
     "php-cs-fixer",
+    "pint",
+    "laravel",
+    "formatter",
     "vim",
     "neovim"
   ],
