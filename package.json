@@ -20,6 +20,7 @@
     "url": "https://github.com/yaegassy/coc-php-cs-fixer"
   },
   "scripts": {
+    "schema": "curl -o schemas/pint-schema.json https://raw.githubusercontent.com/open-southeners/vscode-laravel-pint/main/pint-schema.json",
     "lint": "eslint src --ext ts",
     "clean": "rimraf lib",
     "watch": "node esbuild.js --watch",
@@ -53,6 +54,12 @@
     "onLanguage:php"
   ],
   "contributes": {
+    "jsonValidation": [
+      {
+        "fileMatch": "pint.json",
+        "url": "./schemas/pint-schema.json"
+      }
+    ],
     "configuration": {
       "type": "object",
       "title": "coc-php-cs-fixer configuration",
@@ -61,7 +68,8 @@
           "filetype": "php",
           "patterns": [
             ".php-cs-fixer.php",
-            ".php-cs-fixer.dist.php"
+            ".php-cs-fixer.dist.php",
+            "pint.json"
           ]
         }
       ],
@@ -70,6 +78,15 @@
           "type": "boolean",
           "default": true,
           "description": "Enable coc-php-cs-fixer extension"
+        },
+        "php-cs-fixer.activateTool": {
+          "type": "string",
+          "default": "php-cs-fixer",
+          "description": "",
+          "enum": [
+            "php-cs-fixer",
+            "pint"
+          ]
         },
         "php-cs-fixer.toolPath": {
           "type": "string",
@@ -104,7 +121,7 @@
         "php-cs-fixer.downloadCheckOnStartup": {
           "type": "boolean",
           "default": true,
-          "description": "Perform built-in download if php-cs-fixer is not present at startup"
+          "description": "If `php-cs-fixer` or `pint` is not present at startup, run the built-in download. The tool to be downloaded will follow the `php-cs-fixer.activateTool` configuration"
         },
         "php-cs-fixer.downloadMajorVersion": {
           "type": "number",
@@ -115,6 +132,26 @@
           "default": 3,
           "description": "Specify the major version of php-cs-fixer to download for the extension",
           "scope": "window"
+        },
+        "php-cs-fixer.pint.toolPath": {
+          "type": "string",
+          "default": "",
+          "description": "The path to the pint tool (Absolute path)"
+        },
+        "php-cs-fixer.pint.config": {
+          "type": "string",
+          "default": "",
+          "description": "Path to pint.json config file (--config)"
+        },
+        "php-cs-fixer.pint.preset": {
+          "type": "string",
+          "default": "laravel",
+          "description": "Presets define a set of rules that can be used to fix code style issues in your code (--preset)",
+          "enum": [
+            "laravel",
+            "psr12",
+            "symfony"
+          ]
         },
         "php-cs-fixer.enableFormatProvider": {
           "type": "boolean",
@@ -140,6 +177,14 @@
       {
         "command": "php-cs-fixer.showOutput",
         "title": "Show php-cs-fixer output channel"
+      },
+      {
+        "command": "php-cs-fixer.pintFix",
+        "title": "Run pint"
+      },
+      {
+        "command": "php-cs-fixer.pintDownload",
+        "title": "Download pint"
       }
     ]
   }

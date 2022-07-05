@@ -1,44 +1,61 @@
 import { commands, ExtensionContext, window, workspace } from 'coc.nvim';
 
 import fs from 'fs';
-import path from 'path';
 
-import * as fixCodeActionFeature from './actions/fix';
-import * as downloadCommandFeature from './commands/download';
-import * as fixCommandFeature from './commands/fix';
+import * as pcfFixCodeActionFeature from './actions/pcfFix';
+import * as pintFixCodeActionFeature from './actions/pintFix';
+import * as pcfDownloadCommandFeature from './commands/pcfDownload';
+import * as pcfFixCommandFeature from './commands/pcfFix';
+import * as pintDonwloadCommandFeature from './commands/pintDownload';
+import * as pintFixCommandFeature from './commands/pintFix';
 import * as showOutputCommandFeature from './commands/showOutput';
-import * as fixerDocumentFormatFeature from './documentFormats/fixer';
+import { getPcfPath, getPintPath } from './common';
+import * as pcfFixDocumentFormatFeature from './documentFormats/pcfFix';
+import * as pintFixDocumentFormatFeature from './documentFormats/pintFix';
 import * as statusBarFeature from './statusBar';
 
 export async function activate(context: ExtensionContext): Promise<void> {
   if (!workspace.getConfiguration('php-cs-fixer').get<boolean>('enable', true)) return;
 
-  const outputChannel = window.createOutputChannel('php-cs-fixer');
   const extensionStoragePath = context.storagePath;
   if (!fs.existsSync(extensionStoragePath)) {
     fs.mkdirSync(extensionStoragePath);
   }
 
-  fixCommandFeature.activate(context, outputChannel);
-  downloadCommandFeature.activate(context);
+  const outputChannel = window.createOutputChannel('php-cs-fixer');
   showOutputCommandFeature.activate(context, outputChannel);
+  pcfDownloadCommandFeature.activate(context);
+  pintDonwloadCommandFeature.activate(context);
 
-  let toolPath = workspace.getConfiguration('php-cs-fixer').get('toolPath', '');
-  if (!toolPath) {
-    if (fs.existsSync(path.join(workspace.root, 'vendor', 'bin', 'php-cs-fixer'))) {
-      toolPath = path.join(workspace.root, 'vendor', 'bin', 'php-cs-fixer');
-    } else if (fs.existsSync(path.join(context.storagePath, 'php-cs-fixer'))) {
-      toolPath = path.join(context.storagePath, 'php-cs-fixer');
+  const activateTool = workspace.getConfiguration('php-cs-fixer').get<string>('activateTool', 'php-cs-fixer');
+
+  let toolPath: string | undefined;
+  if (activateTool === 'php-cs-fixer') {
+    toolPath = getPcfPath(context);
+    if (workspace.getConfiguration('php-cs-fixer').get('downloadCheckOnStartup', true)) {
+      if (!toolPath) {
+        commands.executeCommand('php-cs-fixer.download');
+      }
     }
-  }
-  if (workspace.getConfiguration('php-cs-fixer').get('downloadCheckOnStartup', true)) {
-    if (!toolPath) {
-      commands.executeCommand('php-cs-fixer.download');
+  } else if (activateTool === 'pint') {
+    toolPath = getPintPath(context);
+    if (workspace.getConfiguration('php-cs-fixer').get('downloadCheckOnStartup', true)) {
+      if (!toolPath) {
+        commands.executeCommand('php-cs-fixer.pintDownload');
+      }
     }
   }
   if (!toolPath) return;
 
-  fixerDocumentFormatFeature.activate(context, outputChannel);
-  fixCodeActionFeature.activate(context);
-  statusBarFeature.activate(context);
+  if (activateTool === 'php-cs-fixer') {
+    pcfFixCommandFeature.activate(context, outputChannel);
+    pcfFixDocumentFormatFeature.activate(context, outputChannel);
+    pcfFixCodeActionFeature.activate(context);
+  } else if (activateTool === 'pint') {
+    pintFixCommandFeature.activate(context, outputChannel);
+    pintFixDocumentFormatFeature.activate(context, outputChannel);
+    pintFixCodeActionFeature.activate(context);
+  }
+
+  if (activateTool === 'php-cs-fixer' || activateTool === 'pint') statusBarFeature.activate(context);
 }

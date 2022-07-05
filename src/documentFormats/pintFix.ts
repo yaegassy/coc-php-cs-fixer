@@ -10,7 +10,7 @@ import {
   workspace,
 } from 'coc.nvim';
 import { fullDocumentRange } from '../common';
-import { doFormat } from '../engine';
+import { doFormat } from '../engines/pintEngine';
 
 export function activate(context: ExtensionContext, outputChannel: OutputChannel) {
   if (workspace.getConfiguration('php-cs-fixer').get<boolean>('enableFormatProvider', true)) {
@@ -20,14 +20,14 @@ export function activate(context: ExtensionContext, outputChannel: OutputChannel
     context.subscriptions.push(
       languages.registerDocumentFormatProvider(
         languageSelector,
-        new FixerFormattingEditProvider(context, outputChannel),
+        new PintFixFormattingEditProvider(context, outputChannel),
         priority
       )
     );
   }
 }
 
-class FixerFormattingEditProvider implements DocumentFormattingEditProvider {
+class PintFixFormattingEditProvider implements DocumentFormattingEditProvider {
   public _context: ExtensionContext;
   public _outputChannel: OutputChannel;
 

@@ -4,6 +4,7 @@ import cp from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import tmp from 'tmp';
+import { getPcfPath } from '../common';
 
 interface ProcessEnv {
   [key: string]: string | undefined;
@@ -36,19 +37,10 @@ export async function doFormat(
   const fixerRules = extensionConfig.get('rules', '@PSR12');
   const enableIgnoreEnv = extensionConfig.get<boolean>('enableIgnoreEnv', false);
 
-  // 1. User setting php-cs-fixer
-  let toolPath = extensionConfig.get('toolPath', '');
+  const toolPath = getPcfPath(context);
   if (!toolPath) {
-    if (fs.existsSync(path.join(workspace.root, 'vendor', 'bin', 'php-cs-fixer'))) {
-      // 2. vendor/bin/php-cs-fixer
-      toolPath = path.join(workspace.root, 'vendor', 'bin', 'php-cs-fixer');
-    } else if (fs.existsSync(path.join(context.storagePath, 'php-cs-fixer'))) {
-      // 3. builtin php-cs-fixer
-      toolPath = path.join(context.storagePath, 'php-cs-fixer');
-    } else {
-      window.showErrorMessage(`Unable to find the php-cs-fixer tool.`);
-      return;
-    }
+    window.showErrorMessage(`Unable to find the php-cs-fixer tool.`);
+    return;
   }
 
   const text = document.getText(range);

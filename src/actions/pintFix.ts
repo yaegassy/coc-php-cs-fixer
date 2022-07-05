@@ -17,12 +17,12 @@ export function activate(context: ExtensionContext) {
 
   if (workspace.getConfiguration('php-cs-fixer').get<boolean>('enableActionProvider', true)) {
     context.subscriptions.push(
-      languages.registerCodeActionProvider(documentSelector, new FixCodeActionProvider(), 'php-cs-fixer')
+      languages.registerCodeActionProvider(documentSelector, new PintFixCodeActionProvider(), 'php-cs-fixer')
     );
   }
 }
 
-export class FixCodeActionProvider implements CodeActionProvider {
+export class PintFixCodeActionProvider implements CodeActionProvider {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async provideCodeActions(document: TextDocument, range: Range, context: CodeActionContext) {
     const codeActions: CodeAction[] = [];
@@ -30,10 +30,10 @@ export class FixCodeActionProvider implements CodeActionProvider {
     const doc = workspace.getDocument(document.uri);
 
     if (this.wholeRange(doc, range)) {
-      const title = `Run: php-cs-fixer.fix`;
+      const title = `Run: php-cs-fixer.pintFix`;
       const command: Command = {
         title: '',
-        command: 'php-cs-fixer.fix',
+        command: 'php-cs-fixer.pintFix',
       };
 
       const action: CodeAction = {
