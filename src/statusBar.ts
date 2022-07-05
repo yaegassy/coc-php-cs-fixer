@@ -19,8 +19,14 @@ export async function activate(context: ExtensionContext) {
     if (!workspace.getConfiguration('php-cs-fixer').get('enable')) {
       statusBar.hide();
     } else if (['php'].includes(document.languageId)) {
-      statusBar.text = 'PhpCsFixer';
-      statusBar.show();
+      const activateTool = workspace.getConfiguration('php-cs-fixer').get<string>('activateTool', 'php-cs-fixer');
+      if (activateTool === 'php-cs-fixer') {
+        statusBar.text = 'PhpCsFixer';
+        statusBar.show();
+      } else if (activateTool === 'pint') {
+        statusBar.text = 'Pint';
+        statusBar.show();
+      }
     } else {
       statusBar.hide();
     }
