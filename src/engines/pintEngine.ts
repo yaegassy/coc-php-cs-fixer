@@ -82,8 +82,8 @@ export async function doFormat(
           throw err;
         }
 
-        window.showErrorMessage('An error occurred while running pint, please run pint with cli to see if it works');
-        throw err;
+        outputChannel.appendLine(`Err: ${JSON.stringify(err.message)}\n`);
+        return;
       }
 
       const text = fs.readFileSync(tmpFile.name, 'utf-8');
