@@ -102,7 +102,7 @@ export async function doFormat(
   outputChannel.appendLine(`FixerConfigFile(ProjectRoot): ${existsFixerConfigFile ? 'exist' : 'not exist'}\n`);
 
   return new Promise(function (resolve) {
-    cp.execFile('php', [...args, tmpFile.name], opts, function (err) {
+    cp.execFile('php', [...args, tmpFile.name], opts, function (err, stdout, stderr) {
       if (err) {
         tmpFile.removeCallback();
 
@@ -111,10 +111,12 @@ export async function doFormat(
           throw err;
         }
 
-        window.showErrorMessage(
-          'There was an error while running php-cs-fixer. Check the Developer Tools console for more information.'
-        );
-        throw err;
+        outputChannel.appendLine(`==== Err ====\n`);
+        outputChannel.appendLine(`Code: ${err.code ? JSON.stringify(err.code) : 'none'}`);
+        outputChannel.appendLine(`Message: ${JSON.stringify(err.message)}`);
+        outputChannel.appendLine(`Stdout: ${JSON.stringify(stdout)}`);
+        outputChannel.appendLine(`Stderr: ${JSON.stringify(stderr)}\n`);
+        return;
       }
 
       const text = fs.readFileSync(tmpFile.name, 'utf-8');

@@ -70,10 +70,12 @@ export async function doFormat(
   // ---- Output the command to be executed to channel log. ----
   outputChannel.appendLine(`${'#'.repeat(10)} pint\n`);
   outputChannel.appendLine(`Run: php ${args.join(' ')} ${tmpFile.name}`);
-  outputChannel.appendLine(`Opts: ${JSON.stringify(opts)}\n`);
+  outputChannel.appendLine(`Opts: ${JSON.stringify(opts)}`);
+  outputChannel.appendLine(`ResolveExtensionConfig: ${extensionPintConfig ? extensionPintConfig : 'not setting'}`);
+  outputChannel.appendLine(`PintConfigFile(ProjectRoot): ${existsPintConfigFile ? 'exist' : 'not exist'}\n`);
 
   return new Promise(function (resolve) {
-    cp.execFile('php', [...args, tmpFile.name], opts, function (err) {
+    cp.execFile('php', [...args, tmpFile.name], opts, function (err, stdout, stderr) {
       if (err) {
         tmpFile.removeCallback();
 
@@ -82,7 +84,11 @@ export async function doFormat(
           throw err;
         }
 
-        outputChannel.appendLine(`Err: ${JSON.stringify(err.message)}\n`);
+        outputChannel.appendLine(`==== Err ====\n`);
+        outputChannel.appendLine(`Code: ${err.code ? JSON.stringify(err.code) : 'none'}`);
+        outputChannel.appendLine(`Message: ${JSON.stringify(err.message)}`);
+        outputChannel.appendLine(`Stdout: ${JSON.stringify(stdout)}`);
+        outputChannel.appendLine(`Stderr: ${JSON.stringify(stderr)}\n`);
         return;
       }
 
