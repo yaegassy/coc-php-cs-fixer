@@ -27,13 +27,15 @@ The formatter tool used is `php-cs-fixer` by default. If you want to use `larave
 }
 ```
 
+- [DEMO](https://github.com/yaegassy/coc-php-cs-fixer/pull/7#issue-1293669659)
+
 ---
 
 Detects the `php-cs-fixer` or `pint` tool. They are prioritized in order from the top.
 
 1. `php-cs-fixer.toolPath` or `php-cs-fixer.pint.toolPath`
 1. `vendor/bin/php-cs-fixer` or `vendor/bin/pint`
-1. `php-cs-fixer` retrieved by the download feature (`:CocCommand php-cs-fixer.download` or `php-cs-fixer.pintDownload`)
+1. `php-cs-fixer` or `pint` retrieved by the download feature (`:CocCommand php-cs-fixer.download` or `php-cs-fixer.pintDownload`)
    - **php-cs-fixer**:
      - Mac/Linux: `~/.config/coc/extensions/coc-php-cs-fixer-data/php-cs-fixer`
      - Windows: `~/AppData/Local/coc/extensions/coc-php-cs-fixer-data/php-cs-fixer`
