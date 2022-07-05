@@ -98,13 +98,13 @@ Add the settings to `coc-settings.json`.
 
 - `php-cs-fixer.enable`: Enable coc-php-cs-fixer extension, default: `true`
 - `php-cs-fixer.activateTool`: Formatter tool to be used, valid option `["php-cs-fixer", "pint"]`, default: `"php-cs-fixer"`
-- `php-cs-fixer.toolPath`: The path to the php-cs-fixer tool (Absolute path), default: `""`
+- `php-cs-fixer.toolPath`: The path to the php-cs-fixer tool, default: `""`
 - `php-cs-fixer.config`: Path to php-cs-fixer config file (--config), default: `""`
 - `php-cs-fixer.useCache`: Use a cache file when fixing files (--using-cache), default: `false`
 - `php-cs-fixer.allowRisky`: Determines whether risky rules are allowed (--allow-risky), default: `false`
 - `php-cs-fixer.rules`: Rules to use when fixing files (--rules), e.g. `"@PSR12,@Symfony"`, default: `"@PSR12"`
 - `php-cs-fixer.enableIgnoreEnv`: Add the environment variable `PHP_CS_FIXER_IGNORE_ENV=1` and run php-cs-fixer, default: `false`
-- `php-cs-fixer.pint.toolPath`: The path to the pint tool (Absolute path), default: `""`
+- `php-cs-fixer.pint.toolPath`: The path to the pint tool, default: `""`
 - `php-cs-fixer.pint.config`: Path to `pint.json` config file (`--config`), default: `""`
 - `php-cs-fixer.pint.preset`: Presets define a set of rules that can be used to fix code style issues in your code (`--preset`), valid option `["laravel", "psr12", "symfony"]`, default: `"laravel"`
 - `php-cs-fixer.downloadCheckOnStartup`: If `php-cs-fixer` or `pint` is not present at startup, run the built-in download. The tool to be downloaded will follow the `php-cs-fixer.activateTool` configuration, default: `true`

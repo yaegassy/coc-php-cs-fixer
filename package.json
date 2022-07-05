@@ -94,7 +94,7 @@
         "php-cs-fixer.toolPath": {
           "type": "string",
           "default": "",
-          "description": "The path to the php-cs-fixer tool (Absolute path)"
+          "description": "The path to the php-cs-fixer tool"
         },
         "php-cs-fixer.config": {
           "type": "string",
@@ -139,7 +139,7 @@
         "php-cs-fixer.pint.toolPath": {
           "type": "string",
           "default": "",
-          "description": "The path to the pint tool (Absolute path)"
+          "description": "The path to the pint tool"
         },
         "php-cs-fixer.pint.config": {
           "type": "string",
