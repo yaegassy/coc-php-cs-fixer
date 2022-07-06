@@ -2,9 +2,8 @@ import { ExtensionContext, OutputChannel, Range, TextDocument, Uri, window, work
 
 import cp from 'child_process';
 import fs from 'fs';
-import path from 'path';
 import tmp from 'tmp';
-import { getPintPath } from '../common';
+import { getPintPath, isExistsPintConfigFileFromProjectRoot, resolveConfigPath } from '../common';
 
 export async function doFormat(
   context: ExtensionContext,
@@ -18,7 +17,7 @@ export async function doFormat(
   }
 
   const extensionConfig = workspace.getConfiguration('php-cs-fixer');
-  let extensionPintConfig = extensionConfig.get('pint.config', '');
+  const extensionPintConfig = extensionConfig.get('pint.config', '');
   const preset = extensionConfig.get('pint.preset', 'laravel');
 
   const toolPath = getPintPath(context);
@@ -38,22 +37,8 @@ export async function doFormat(
   const existsPintConfigFile = isExistsPintConfigFileFromProjectRoot();
 
   if (extensionPintConfig) {
-    if (!path.isAbsolute(extensionPintConfig)) {
-      let currentPath = opts.cwd;
-      const triedPaths = [currentPath];
-      while (!fs.existsSync(currentPath + path.sep + extensionPintConfig)) {
-        const lastPath = currentPath;
-        currentPath = path.dirname(currentPath);
-        if (lastPath == currentPath) {
-          window.showErrorMessage(`Unable to find ${extensionPintConfig} file in ${triedPaths.join(', ')}`);
-          return '';
-        } else {
-          triedPaths.push(currentPath);
-        }
-      }
-      extensionPintConfig = currentPath + path.sep + extensionPintConfig;
-    }
-    args.push('--config=' + extensionPintConfig);
+    const resolvedPintConfig = resolveConfigPath(extensionPintConfig, opts.cwd);
+    args.push('--config=' + resolvedPintConfig);
   } else if (existsPintConfigFile) {
     // If the pint.json config file exists for the project root.
     //
@@ -98,8 +83,4 @@ export async function doFormat(
       resolve(text);
     });
   });
-}
-
-function isExistsPintConfigFileFromProjectRoot() {
-  return fs.existsSync(path.join(workspace.root, 'pint.json'));
 }

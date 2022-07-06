@@ -1,4 +1,4 @@
-import { ExtensionContext, Range, TextDocument, workspace } from 'coc.nvim';
+import { ExtensionContext, Range, TextDocument, window, workspace } from 'coc.nvim';
 
 import fs from 'fs';
 import path from 'path';
@@ -39,4 +39,34 @@ export function getPintPath(context: ExtensionContext) {
     }
   }
   return toolPath;
+}
+
+export function resolveConfigPath(configPath: string, cwd: string) {
+  if (!path.isAbsolute(configPath)) {
+    let currentPath = cwd;
+    const triedPaths = [currentPath];
+    while (!fs.existsSync(currentPath + path.sep + configPath)) {
+      const lastPath = currentPath;
+      currentPath = path.dirname(currentPath);
+      if (lastPath == currentPath) {
+        window.showErrorMessage(`Unable to find ${configPath} file in ${triedPaths.join(', ')}`);
+        return '';
+      } else {
+        triedPaths.push(currentPath);
+      }
+    }
+    configPath = currentPath + path.sep + configPath;
+  }
+  return configPath;
+}
+
+export function isExistsFixerConfigFileFromProjectRoot() {
+  return (
+    fs.existsSync(path.join(workspace.root, '.php-cs-fixer.php')) ||
+    fs.existsSync(path.join(workspace.root, '.php-cs-fixer.dist.php'))
+  );
+}
+
+export function isExistsPintConfigFileFromProjectRoot() {
+  return fs.existsSync(path.join(workspace.root, 'pint.json'));
 }

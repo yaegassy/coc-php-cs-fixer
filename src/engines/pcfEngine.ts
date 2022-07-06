@@ -4,7 +4,7 @@ import cp from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import tmp from 'tmp';
-import { getPcfPath } from '../common';
+import { getPcfPath, isExistsFixerConfigFileFromProjectRoot, resolveConfigPath } from '../common';
 
 interface ProcessEnv {
   [key: string]: string | undefined;
@@ -33,7 +33,7 @@ export async function doFormat(
 
   const isUseCache = extensionConfig.get('useCache', false);
   const isAllowRisky = extensionConfig.get('allowRisky', true);
-  let extensionFixerConfig = extensionConfig.get('config', '');
+  const extensionFixerConfig = extensionConfig.get('config', '');
   const fixerRules = extensionConfig.get('rules', '@PSR12');
   const enableIgnoreEnv = extensionConfig.get<boolean>('enableIgnoreEnv', false);
 
@@ -62,22 +62,8 @@ export async function doFormat(
   const existsFixerConfigFile = isExistsFixerConfigFileFromProjectRoot();
 
   if (extensionFixerConfig) {
-    if (!path.isAbsolute(extensionFixerConfig)) {
-      let currentPath = opts.cwd;
-      const triedPaths = [currentPath];
-      while (!fs.existsSync(currentPath + path.sep + extensionFixerConfig)) {
-        const lastPath = currentPath;
-        currentPath = path.dirname(currentPath);
-        if (lastPath == currentPath) {
-          window.showErrorMessage(`Unable to find ${extensionFixerConfig} file in ${triedPaths.join(', ')}`);
-          return '';
-        } else {
-          triedPaths.push(currentPath);
-        }
-      }
-      extensionFixerConfig = currentPath + path.sep + extensionFixerConfig;
-    }
-    args.push('--config=' + extensionFixerConfig);
+    const resolvedFixerConfig = resolveConfigPath(extensionFixerConfig, opts.cwd);
+    args.push('--config=' + resolvedFixerConfig);
   } else if (existsFixerConfigFile) {
     // If the php-cs-fixer config file exists for the project root.
     //
@@ -128,11 +114,4 @@ export async function doFormat(
       resolve(text);
     });
   });
-}
-
-function isExistsFixerConfigFileFromProjectRoot() {
-  return (
-    fs.existsSync(path.join(workspace.root, '.php-cs-fixer.php')) ||
-    fs.existsSync(path.join(workspace.root, '.php-cs-fixer.dist.php'))
-  );
 }
