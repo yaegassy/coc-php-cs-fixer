@@ -111,6 +111,7 @@ Add the settings to `coc-settings.json`.
 - `php-cs-fixer.downloadMajorVersion`: Specify the major version of php-cs-fixer to download for the extension, valid option `[2, 3]`, default: `3`
 - `php-cs-fixer.enableFormatProvider`: Enable format provider, default: `true`
 - `php-cs-fixer.enableActionProvider`: Enable codeAction provider, default: `true`
+- `php-cs-fixer.terminal.enableSplitRight`: Use vertical belowright for dryRunDiff and pintTest terminal window, default: `false`
 
 ## Commands
 
