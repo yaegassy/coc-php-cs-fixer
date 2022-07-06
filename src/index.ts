@@ -6,6 +6,7 @@ import * as pcfFixCodeActionFeature from './actions/pcfFix';
 import * as pintFixCodeActionFeature from './actions/pintFix';
 import * as pcfDownloadCommandFeature from './commands/pcfDownload';
 import * as pcfFixCommandFeature from './commands/pcfFix';
+import * as pcfDryRunDiffCommandFeature from './commands/pcfDryRunDiff';
 import * as pintDonwloadCommandFeature from './commands/pintDownload';
 import * as pintFixCommandFeature from './commands/pintFix';
 import * as showOutputCommandFeature from './commands/showOutput';
@@ -49,6 +50,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   if (activateTool === 'php-cs-fixer') {
     pcfFixCommandFeature.activate(context, outputChannel);
+    pcfDryRunDiffCommandFeature.activate(context);
     pcfFixDocumentFormatFeature.activate(context, outputChannel);
     pcfFixCodeActionFeature.activate(context);
   } else if (activateTool === 'pint') {
