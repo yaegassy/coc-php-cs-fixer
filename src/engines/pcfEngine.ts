@@ -49,9 +49,12 @@ export async function doFormat(
 
   let env: ProcessEnv | undefined = undefined;
   if (enableIgnoreEnv) {
-    env = { PHP_CS_FIXER_IGNORE_ENV: '1' };
+    env = {
+      ...process.env,
+      PHP_CS_FIXER_IGNORE_ENV: '1',
+    };
   }
-  const opts = { cwd, env, shell: true };
+  const opts = { cwd, shell: true, env };
 
   args.push(toolPath);
   args.push('fix');
