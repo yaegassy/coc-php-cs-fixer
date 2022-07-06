@@ -187,6 +187,10 @@
         "title": "Run pint"
       },
       {
+        "command": "php-cs-fixer.pintTest",
+        "title": "Run pint with --test in a terminal window"
+      },
+      {
         "command": "php-cs-fixer.download",
         "title": "Download php-cs-fixer"
       },
