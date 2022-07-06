@@ -5,10 +5,11 @@ import fs from 'fs';
 import * as pcfFixCodeActionFeature from './actions/pcfFix';
 import * as pintFixCodeActionFeature from './actions/pintFix';
 import * as pcfDownloadCommandFeature from './commands/pcfDownload';
-import * as pcfFixCommandFeature from './commands/pcfFix';
 import * as pcfDryRunDiffCommandFeature from './commands/pcfDryRunDiff';
+import * as pcfFixCommandFeature from './commands/pcfFix';
 import * as pintDonwloadCommandFeature from './commands/pintDownload';
 import * as pintFixCommandFeature from './commands/pintFix';
+import * as pintTestCommandFeature from './commands/pintTest';
 import * as showOutputCommandFeature from './commands/showOutput';
 import { getPcfPath, getPintPath } from './common';
 import * as pcfFixDocumentFormatFeature from './documentFormats/pcfFix';
@@ -55,6 +56,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     pcfFixCodeActionFeature.activate(context);
   } else if (activateTool === 'pint') {
     pintFixCommandFeature.activate(context, outputChannel);
+    pintTestCommandFeature.activate(context);
     pintFixDocumentFormatFeature.activate(context, outputChannel);
     pintFixCodeActionFeature.activate(context);
   }
