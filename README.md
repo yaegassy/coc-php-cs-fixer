@@ -116,7 +116,7 @@ Add the settings to `coc-settings.json`.
 ## Commands
 
 - `php-cs-fixer.fix`: Run php-cs-fixer fix
-- `php-cs-fixer.dryRunDiff`: Run php-cs-fixer fix with -`-dry-run` and `--diff` in a terminal window
+- `php-cs-fixer.dryRunDiff`: Run php-cs-fixer fix with `--dry-run` and `--diff` in a terminal window | [DEMO](https://github.com/yaegassy/coc-php-cs-fixer/pull/8)
 - `php-cs-fixer.pintFix`: Run pint
 - `php-cs-fixer.download`: Download php-cs-fixer
    - By default, the "v3" series will be downloaded. If you want to download "v2" series, please change the `php-cs-fixer.downloadMajorVersion` setting.
