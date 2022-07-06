@@ -179,20 +179,24 @@
         "title": "Run php-cs-fixer fix"
       },
       {
-        "command": "php-cs-fixer.download",
-        "title": "Download php-cs-fixer"
-      },
-      {
-        "command": "php-cs-fixer.showOutput",
-        "title": "Show php-cs-fixer output channel"
+        "command": "php-cs-fixer.dryRunDiff",
+        "title": "Run php-cs-fixer fix with --dry-run and --diff in a terminal window"
       },
       {
         "command": "php-cs-fixer.pintFix",
         "title": "Run pint"
       },
       {
+        "command": "php-cs-fixer.download",
+        "title": "Download php-cs-fixer"
+      },
+      {
         "command": "php-cs-fixer.pintDownload",
         "title": "Download pint"
+      },
+      {
+        "command": "php-cs-fixer.showOutput",
+        "title": "Show php-cs-fixer output channel"
       }
     ]
   }
