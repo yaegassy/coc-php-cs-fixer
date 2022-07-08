@@ -63,14 +63,7 @@ Add the settings to `coc-settings.json`.
 
 If the file size is large or the tool (`php-cs-fixer` or `pint`) is slow in your environment, formatting may not work properly when saving. In coc.nvim, time-consuming formatting on save is canceled.
 
-Try changing the timout-related  settings.
-
-```jsonc
-{
-  // default: 500 (ms)
-  "coc.preferences.willSaveHandlerTimeout": 1000
-}
-```
+In that case, please perform the formatting in another way.
 
 ### Run from CocCommand
 
