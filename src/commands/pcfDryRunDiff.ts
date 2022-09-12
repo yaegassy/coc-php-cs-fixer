@@ -2,7 +2,7 @@ import { commands, ExtensionContext, Terminal, Uri, window, workspace } from 'co
 import { getPcfPath, isExistsFixerConfigFileFromProjectRoot, resolveConfigPath } from '../common';
 
 interface ProcessEnv {
-  [key: string]: string | undefined;
+  [key: string]: string | null;
 }
 
 let terminal: Terminal | undefined;
