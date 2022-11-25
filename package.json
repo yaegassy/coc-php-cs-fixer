@@ -45,7 +45,7 @@
     "esbuild": "^0.15.15",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "https-proxy-agent": "^5.0.1",
     "node-fetch": "^2.6.7",
     "prettier": "^2.8.0",
