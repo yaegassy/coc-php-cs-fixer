@@ -55,9 +55,9 @@ Add the settings to `coc-settings.json`.
 
 ```jsonc
 {
-  "coc.preferences.formatOnSaveFiletypes": [
-    "php"
-  ]
+  "[php]": {
+    "coc.preferences.formatOnSave": true
+  },
 }
 ```
 
