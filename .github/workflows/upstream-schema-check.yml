@@ -2,7 +2,7 @@ name: upstream-schema-check
 
 on: 
   schedule:
-    - cron: "0 0,8 * * *"
+    - cron: "0 15 * * *"
   workflow_dispatch:
 
 jobs:
