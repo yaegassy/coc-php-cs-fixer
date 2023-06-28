@@ -118,7 +118,7 @@
             "operators": {
               "description": "Dictionary of `binary operator` => `fix strategy` values that differ from the default strategy. Supported are: `=`, `*`, `/`, `%`, `<`, `>`, `|`, `^`, `+`, `-`, `&`, `&=`, `&&`, `||`, `.=`, `/=`, `=>`, `==`, `>=`, `===`, `!=`, `<>`, `!==`, `<=`, `and`, `or`, `xor`, `-=`, `%=`, `*=`, `|=`, `+=`, `<<`, `<<=`, `>>`, `>>=`, `^=`, `**`, `**=`, `<=>`, `??`, `??=`",
               "default": {},
-              "type": "array"
+              "type": "object"
             }
           }
         },
@@ -263,7 +263,7 @@
                 "trait_import": "none",
                 "case": "none"
               },
-              "type": "array"
+              "type": "object"
             }
           }
         },
@@ -1290,7 +1290,7 @@
             "replacements": {
               "description": "A map of tags to replace.",
               "default": {},
-              "type": "array"
+              "type": "object"
             }
           }
         },
@@ -2535,8 +2535,8 @@
             },
             "methods": {
               "description": "Dictionary of `method` => `call_type` values that differ from the default strategy.",
-              "default": [],
-              "type": "array"
+              "default": {},
+              "type": "object"
             }
           }
         },
@@ -2690,7 +2690,7 @@
                 "type": "var",
                 "link": "see"
               },
-              "type": "array"
+              "type": "object"
             }
           }
         },
@@ -2768,7 +2768,7 @@
                 "$static": "static",
                 "@static": "static"
               },
-              "type": "array"
+              "type": "object"
             }
           }
         },
@@ -2884,7 +2884,7 @@
                 "var": "annotation",
                 "version": "annotation"
               },
-              "type": "array"
+              "type": "object"
             }
           }
         },
@@ -3032,7 +3032,7 @@
                 "rand": "mt_rand",
                 "srand": "mt_srand"
               },
-              "type": "array"
+              "type": "object"
             }
           }
         },
