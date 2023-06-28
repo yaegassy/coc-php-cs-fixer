@@ -1,0 +1,30 @@
+name: update-schema-data
+
+on: 
+  schedule:
+    - cron: "0 15 * * *"
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.16.x
+          cache: npm
+
+      - name: Check upstream pint schema
+        run: npm run schema
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          title: 'ci(schema): update'
+          commit-message: 'ci(schema): update'
+          author: 'GitHub <noreply@github.com>'
+          delete-branch: true
