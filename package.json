@@ -23,7 +23,7 @@
     "url": "https://github.com/yaegassy/coc-php-cs-fixer"
   },
   "scripts": {
-    "schema": "curl -o schemas/pint-schema.json https://raw.githubusercontent.com/open-southeners/vscode-laravel-pint/main/pint-schema.json",
+    "schema": "curl -o schemas/pint-schema.json https://raw.githubusercontent.com/open-southeners/vscode-laravel-pint/main/pint-schema.json && node scripts/check-schema.mjs",
     "lint": "eslint src --ext ts",
     "clean": "rimraf lib",
     "watch": "node esbuild.js --watch",

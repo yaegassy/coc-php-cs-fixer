@@ -21,10 +21,6 @@ jobs:
       - name: Check upstream pint schema
         run: npm run schema
 
-      - name: Check the retrieved file for curl error messages.
-        run: |
-          node -e "const fs = require('node:fs'); if (fs.readFileSync('./schemas/pint-schema.json', { encoding: 'utf8' }).split('\n').length === 1) console.log('NG'); process.exit(1);"
-
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
